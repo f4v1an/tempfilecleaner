@@ -18,3 +18,7 @@ TempFileCleanerGUI, bilgisayarınızda gereksiz dosyaları (temp, prefetch ve %t
    ```bash
    python tempfilecleanergui.py
    ```
+3. Uygulama çalışmazsa bazı kütüphaneler eksik olabilir onun için şu komutu çalıştırın:   
+   ```bash
+   pip install -r requirements.txt
+   ``` 
