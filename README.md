@@ -22,3 +22,5 @@ TempFileCleanerGUI, bilgisayarınızda gereksiz dosyaları (temp, prefetch ve %t
    ```bash
    pip install -r requirements.txt
    ``` 
+Pythona gerek duymayan .exe versiyonu için tıklayın
+https://github.com/f4v1an/tempfilecleaner/releases/tag/TempFileCleaner
