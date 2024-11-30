@@ -1,10 +1,9 @@
 import os
-import shutil
 import subprocess
 import sys
 import tkinter as tk
 from tkinter import messagebox
-import psutil  # Sistem bilgisi için kullanılıyor
+import psutil
 
 # Eksik kütüphaneleri otomatik yükleme
 def paket_kontrol_ve_yukle(paket_adi):
@@ -14,6 +13,32 @@ def paket_kontrol_ve_yukle(paket_adi):
         print(f"{paket_adi} bulunamadı. Yükleniyor...")
         subprocess.check_call([sys.executable, "-m", "pip", "install", paket_adi])
         print(f"{paket_adi} başarıyla yüklendi.")
+
+# Python yüklü mü kontrol etme
+def python_yuklu_mu():
+    try:
+        # Python'un yüklü olup olmadığını kontrol et
+        subprocess.check_call([sys.executable, "--version"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        return True
+    except subprocess.CalledProcessError:
+        return False
+
+# Python yüklenmemişse yükleme
+def python_yukle():
+    python_url = "https://www.python.org/ftp/python/3.11.6/python-3.11.6.exe"  # Python'un en güncel sürümünü indiriyoruz
+    python_installer = "python_installer.exe"
+    
+    print("Python yüklü değil, yükleme başlatılıyor...")
+    
+    # Python yükleyicisini indir
+    subprocess.run(["curl", "-o", python_installer, python_url], check=True)
+    
+    # Yükleyiciyi çalıştır (sessiz kurulum, PATH'e ekleyerek)
+    subprocess.run([python_installer, "/quiet", "InstallAllUsers=1", "PrependPath=1"], check=True)
+    
+    # Yükleyici dosyasını sil
+    os.remove(python_installer)
+    print("Python başarıyla yüklendi.")
 
 # Gerekli kütüphaneleri kontrol et
 paket_kontrol_ve_yukle("psutil")
@@ -71,7 +96,7 @@ def sistem_kontrolu_guncelle():
     )
 
     # 1 saniye sonra tekrar çalıştır
-    pencere.after(1, sistem_kontrolu_guncelle)
+    pencere.after(1000, sistem_kontrolu_guncelle)
 
 # Arayüz
 def arayuz_olustur():
@@ -95,9 +120,13 @@ def arayuz_olustur():
     sistem_bilgi_etiketi = tk.Label(pencere, textvariable=sistem_bilgisi, font=("Arial", 10), justify="center", wraplength=450)
     sistem_bilgi_etiketi.pack(pady=10)
 
-    pencere.after(1, sistem_kontrolu_guncelle)  # 1 saniye sonra sistem kontrolünü başlat
+    pencere.after(1000, sistem_kontrolu_guncelle)  # 1 saniye sonra sistem kontrolünü başlat
     pencere.mainloop()
 
 # Programı başlat
 if __name__ == "__main__":
+    # Python yüklü mü kontrol et, değilse yükle
+    if not python_yuklu_mu():
+        python_yukle()
+    
     arayuz_olustur()
