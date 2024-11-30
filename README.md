@@ -14,5 +14,5 @@ TempFileCleanerGUI, bilgisayarınızda gereksiz dosyaları (temp, prefetch ve %t
    ```bash
    git clone https://github.com/f4v1an/tempfilecleaner.git
    ```
-   2. Uygulamayı çalıştırın:
-      python tempfilecleanergui.py
+2. Uygulamayı çalıştırın:
+   python tempfilecleanergui.py
